@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Ростелеком — Страхование от мошенничества (UI прототипы)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --primary: #6a4ff7;
+      --primary-dark: #5238d6;
+      --accent: #ff8a00;
+      --bg: #f5f6fa;
+      --card-bg: #ffffff;
+      --text-main: #1f2430;
+      --text-secondary: #616777;
+      --border: #dde1ea;
+      --success: #2cb67d;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text-main);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3, h4 {
+      margin: 0 0 8px;
+      font-weight: 600;
+    }
+
+    p {
+      margin: 0 0 8px;
+    }
+
+    a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .page {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px 16px 40px;
+    }
+
+    .page-header {
+      margin-bottom: 24px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 12px;
+    }
+
+    .page-header h1 {
+      font-size: 24px;
+    }
+
+    .page-header span {
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    .variants {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    @media (min-width: 960px) {
+      .variants {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .variant {
+      background: #ffffff;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .variant-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .phone-frame {
+      border-radius: 24px;
+      border: 1px solid var(--border);
+      background: #f9fafc;
+      padding: 16px 10px;
+      max-width: 420px;
+      margin: 0 auto;
+    }
+
+    .phone-inner {
+      background: var(--bg);
+      border-radius: 20px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .screen-header {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .screen-title {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .screen-subtitle {
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      border-radius: 999px;
+      padding: 4px 8px;
+      background: rgba(106,79,247,0.06);
+      color: var(--primary-dark);
+    }
+
+    .badge-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--primary);
+    }
+
+    .bullets {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 12px;
+      color: var(--text-secondary);
+      padding: 8px;
+      border-radius: 10px;
+      background: #ffffff;
+      border: 1px solid #e5e9f2;
+    }
+
+    .bullets-item::before {
+      content: "• ";
+    }
+
+    .cards-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .tariff-card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      padding: 12px 12px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .tariff-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 8px;
+    }
+
+    .tariff-name {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .tariff-link {
+      font-size: 11px;
+      color: var(--primary);
+    }
+
+    .tariff-main {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+
+    .tariff-sum {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .tariff-price {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--primary-dark);
+    }
+
+    .tariff-caption {
+      font-size: 11px;
+      color: var(--text-secondary);
+    }
+
+    .btn {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      padding: 9px 12px;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #ffffff;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+    }
+
+    .btn-secondary {
+      background: #ffffff;
+      color: var(--primary);
+      border: 1px solid var(--primary);
+    }
+
+    .btn-full {
+      width: 100%;
+    }
+
+    .link-inline {
+      font-size: 12px;
+      color: var(--primary);
+      cursor: pointer;
+    }
+
+    .link-inline:hover {
+      text-decoration: underline;
+    }
+
+    .divider {
+      height: 1px;
+      background: #e3e7f0;
+      margin: 4px 0 0;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 12px;
+    }
+
+    .form-label {
+      font-size: 12px;
+    }
+
+    .form-input, .form-select {
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      padding: 7px 9px;
+      font-size: 13px;
+      background: #ffffff;
+    }
+
+    .helper-text {
+      font-size: 11px;
+      color: var(--text-secondary);
+    }
+
+    .info-box {
+      background: #ffffff;
+      border-radius: 12px;
+      border: 1px solid #e3e7f0;
+      padding: 10px;
+      font-size: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .info-title {
+      font-weight: 600;
+      font-size: 12px;
+    }
+
+    .checkbox {
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+      font-size: 11px;
+      color: var(--text-secondary);
+    }
+
+    .checkbox input {
+      margin-top: 2px;
+    }
+
+    .bottom-bar {
+      margin-top: 4px;
+      padding-top: 8px;
+      border-top: 1px solid #e3e7f0;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .bottom-main {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .bottom-main-text {
+      font-size: 12px;
+    }
+
+    .bottom-main-text strong {
+      font-size: 14px;
+    }
+
+    .bottom-caption {
+      font-size: 10px;
+      color: var(--text-secondary);
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .chip {
+      padding: 5px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #ffffff;
+      font-size: 11px;
+      cursor: pointer;
+    }
+
+    .chip.active {
+      border-color: var(--primary);
+      background: rgba(106,79,247,0.08);
+      color: var(--primary-dark);
+    }
+
+    .segment-control {
+      display: flex;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      background: #ffffff;
+    }
+
+    .segment-item {
+      flex: 1;
+      text-align: center;
+      padding: 7px 4px;
+      font-size: 12px;
+      cursor: pointer;
+      border-right: 1px solid var(--border);
+    }
+
+    .segment-item:last-child {
+      border-right: none;
+    }
+
+    .segment-item.active {
+      background: rgba(106,79,247,0.08);
+      color: var(--primary-dark);
+      font-weight: 500;
+    }
+
+    .tag-success {
+      color: var(--success);
+      font-size: 11px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .tag-success-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--success);
+    }
+
+    .status-line {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      align-items: center;
+    }
+
+    .progress {
+      margin-top: 4px;
+      height: 6px;
+      border-radius: 999px;
+      background: #e4e7f1;
+      overflow: hidden;
+    }
+
+    .progress-inner {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+    }
+
+    .highlight {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    .highlight strong {
+      color: var(--text-main);
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="page-header">
+      <h1>Страхование от мошенничества — прототипы UI</h1>
+      <span>Ростелеком · два сценария: фиксированные тарифы и калькулятор</span>
+    </div>
+
+    <div class="variants">
+      <!-- Вариант 1: Моно опция без калькулятора -->
+      <section class="variant">
+        <div class="variant-title">Вариант 1 · Моно‑опция без калькулятора (3 тарифа)</div>
+
+        <!-- Экран 1: выбор тарифа -->
+        <div class="phone-frame">
+          <div class="phone-inner">
+            <div class="screen-header">
+              <div class="screen-title">Защита от мошенников</div>
+              <div class="screen-subtitle">
+                Вернём деньги, если мошенники украдут их с ваших карт или счетов.
+              </div>
+              <div class="badge">
+                <span class="badge-dot"></span>
+                Подписка от 99 ₽ в месяц
+              </div>
+            </div>
+
+            <div class="bullets">
+              <div class="bullets-item">Защита карт и счетов любых банков.</div>
+              <div class="bullets-item">Переводы по просьбе «сотрудников банка» и поддельные сайты.</div>
+              <div class="bullets-item">Решение по заявке от 48 часов.</div>
+            </div>
+
+            <div class="cards-list">
+              <div class="tariff-card">
+                <div class="tariff-header">
+                  <div class="tariff-name">Базовая защита</div>
+                  <div class="tariff-link">Подробнее</div>
+                </div>
+                <div class="tariff-main">
+                  <div>
+                    <div class="tariff-sum">100 000 ₽</div>
+                    <div class="tariff-caption">Страховая сумма на год</div>
+                  </div>
+                  <div>
+                    <div class="tariff-price">99 ₽/мес</div>
+                    <div class="tariff-caption">Для одного человека</div>
+                  </div>
+                </div>
+                <div class="tariff-caption">
+                  Каждая выплата уменьшает остаток лимита.
+                </div>
+                <button class="btn btn-primary btn-full">Выбрать тариф</button>
+              </div>
+
+              <div class="tariff-card" style="border-width:2px;border-color:var(--primary);">
+                <div class="tariff-header">
+                  <div class="tariff-name">Оптимальная защита</div>
+                  <div class="tariff-link">Подробнее</div>
+                </div>
+                <div class="tariff-main">
+                  <div>
+                    <div class="tariff-sum">300 000 ₽</div>
+                    <div class="tariff-caption">Страховая сумма на год</div>
+                  </div>
+                  <div>
+                    <div class="tariff-price">329 ₽/мес</div>
+                    <div class="tariff-caption">Рекомендуем</div>
+                  </div>
+                </div>
+                <div class="tariff-caption">
+                  Подходит, если часто платите онлайн и по картам.
+                </div>
+                <button class="btn btn-primary btn-full">Выбрать тариф</button>
+              </div>
+
+              <div class="tariff-card">
+                <div class="tariff-header">
+                  <div class="tariff-name">Максимальная защита</div>
+                  <div class="tariff-link">Подробнее</div>
+                </div>
+                <div class="tariff-main">
+                  <div>
+                    <div class="tariff-sum">600 000 ₽</div>
+                    <div class="tariff-caption">Страховая сумма на год</div>
+                  </div>
+                  <div>
+                    <div class="tariff-price">529 ₽/мес</div>
+                    <div class="tariff-caption">Повышенный лимит</div>
+                  </div>
+                </div>
+                <div class="tariff-caption">
+                  Для крупных остатков и высоких лимитов по картам.
+                </div>
+                <button class="btn btn-primary btn-full">Выбрать тариф</button>
+              </div>
+            </div>
+
+            <div class="divider"></div>
+            <div class="highlight">
+              <strong>Что покрывает защита?</strong>
+              <span class="link-inline">Посмотреть список случаев</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Экран 2: данные застрахованного -->
+        <div class="phone-frame">
+          <div class="phone-inner">
+            <div class="screen-header">
+              <div class="screen-title">Данные для оформления</div>
+              <div class="screen-subtitle">
+                Эти данные нужны, чтобы оформить полис и отправить его вам.
+              </div>
+            </div>
+
+            <div class="info-box">
+              <div class="info-title">Выбранный тариф</div>
+              <div class="highlight">
+                Оптимальная защита — <strong>300 000 ₽</strong>, <strong>329 ₽/мес</strong>
+              </div>
+              <div class="helper-text">
+                Страховая сумма на год. Каждая выплата уменьшает остаток лимита.
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">ФИО</label>
+              <input class="form-input" placeholder="Иванов Иван Иванович" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Дата рождения</label>
+              <input class="form-input" placeholder="ДД.ММ.ГГГГ" />
+            </div>
+
+            <div class="info-box">
+              <div class="info-title">Что покрывает защита</div>
+              <div class="helper-text">
+                • звонки «из банка» с просьбой перевести деньги<br/>
+                • поддельные сайты и ссылки из SMS<br/>
+                • несанкционированные переводы из онлайн‑банка
+              </div>
+              <div class="link-inline">Полный список случаев</div>
+            </div>
+
+            <div class="checkbox">
+              <input type="checkbox" />
+              <div>Я согласен с условиями программы и правилами страхования.</div>
+            </div>
+
+            <button class="btn btn-primary btn-full">Перейти к оплате</button>
+          </div>
+        </div>
+
+        <!-- Экран 3: оплата -->
+        <div class="phone-frame">
+          <div class="phone-inner">
+            <div class="screen-header">
+              <div class="screen-title">Оплата и подписка</div>
+              <div class="screen-subtitle">
+                Списываем оплату автоматически, пока защита активна.
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Способ оплаты</label>
+              <div class="segment-control">
+                <div class="segment-item active">С лицевого счёта</div>
+                <div class="segment-item">С банковской карты</div>
+              </div>
+              <div class="helper-text">
+                Можно изменить или отключить в любой момент в разделе «Мои услуги».
+              </div>
+            </div>
+
+            <div class="info-box">
+              <div class="info-title">Подписка</div>
+              <div class="highlight">
+                Оплата: <strong>329 ₽ в месяц</strong>.
+              </div>
+              <div class="helper-text">
+                Подписка продлевается автоматически каждый месяц. Отменить можно в любой момент.
+              </div>
+            </div>
+
+            <div class="checkbox">
+              <input type="checkbox" />
+              <div>Я согласен на обработку персональных данных и их передачу страховщику.</div>
+            </div>
+
+            <div class="bottom-bar">
+              <div class="bottom-main">
+                <div class="bottom-main-text">
+                  <div><strong>К оплате сейчас: 329 ₽</strong></div>
+                  <div class="bottom-caption">
+                    Далее — автоплатёж раз в месяц.
+                  </div>
+                </div>
+                <button class="btn btn-primary">Подключить</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Экран 4: успех -->
+        <div class="phone-frame">
+          <div class="phone-inner">
+            <div class="screen-header">
+              <div class="screen-title">Защита подключена</div>
+              <div class="screen-subtitle">
+                Ваши деньги на картах и счетах теперь защищены до 300 000 ₽ на 12 месяцев.
+              </div>
+            </div>
+
+            <div class="info-box">
+              <div class="info-title">Полис оформлен</div>
+              <div class="helper-text">
+                Полис отправили на вашу почту и в раздел «Мои полисы» в приложении.
+              </div>
+            </div>
+
+            <button class="btn btn-primary btn-full">Перейти к моей защите</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Вариант 2: Моно опция с калькулятором -->
+      <section class="variant">
+        <div class="variant-title">Вариант 2 · Моно‑опция с калькулятором</div>
+
+        <!-- Экран 0: простая карточка продукта (входная точка) -->
+        <div class="phone-frame">
+          <div class="phone-inner">
+            <div class="screen-header">
+              <div class="screen-title">Страхование от мошенничества</div>
+              <div class="screen-subtitle">
+                Защитите деньги на картах и счетах любых банков.
+              </div>
+            </div>
+
+            <div class="info-box">
+              <div class="info-title">Моно‑опция</div>
+              <div class="highlight">
+                От <strong>150 ₽ в месяц</strong><br/>
+                Страховая сумма — до <strong>1 000 000 ₽</strong> на год.
+              </div>
+            </div>
+
+            <div class="bullets">
+              <div class="bullets-item">Вернём деньги, если вы перевели их мошенникам по их просьбе.</div>
+              <div class="bullets-item">Защита при звонках «из банка», фишинговых ссылках и поддельных сайтах.</div>
+              <div class="bullets-item">Оформление и обращение за выплатой — онлайн.</div>
+            </div>
+
+            <button class="btn btn-primary btn-full">Рассчитать защиту</button>
+          </div>
+        </div>
+
+        <!-- Экран 1: калькулятор -->
+        <div class="phone-frame">
+          <div class="phone-inner">
+            <div class="screen-header">
+              <div class="screen-title">Настройте защиту</div>
+              <div class="screen-subtitle">
+                Выберите, на какую сумму и как хотите платить.
+              </div>
+              <div class="badge">
+                <span class="badge-dot"></span>
+                От 150 ₽ в месяц
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">ФИО застрахованного</label>
+              <input class="form-input" placeholder="Иванов Иван Иванович" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Дата рождения</label>
+              <input class="form-input" placeholder="ДД.ММ.ГГГГ" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Сумма защиты на год</label>
+              <div class="chip-row">
+                <div class="chip active">100 000 ₽</div>
+                <div class="chip">300 000 ₽</div>
+                <div class="chip">500 000 ₽</div>
+                <div class="chip">1 000 000 ₽</div>
+              </div>
+              <div class="helper-text">
+                Это максимальная сумма, которую мы сможем вернуть за 12 месяцев. Каждая выплата уменьшает остаток лимита.
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Как вам удобнее платить?</label>
+              <div class="segment-control">
+                <div class="segment-item active">Ежемесячно</div>
+                <div class="segment-item">Раз в 3 месяца</div>
+                <div class="segment-item">Раз в год</div>
+              </div>
+            </div>
+
+            <div class="info-box">
+              <div class="info-title">Итог по вашему выбору</div>
+              <div class="highlight">
+                Сумма защиты: <strong>300 000 ₽ на год</strong><br/>
+                Оплата: <strong>от 150 ₽ в месяц</strong> при ежемесячном платеже.
+              </div>
+              <div class="helper-text">
+                Точная стоимость зависит от выбранной суммы защиты и периода оплаты.
+              </div>
+            </div>
+
+            <div class="bottom-bar">
+              <div class="bottom-main">
+                <div class="bottom-main-text">
+                  <div><strong>К оплате сейчас: 150 ₽</strong></div>
+                  <div class="bottom-caption">
+                    Подписка. Автосписание по выбранному графику.
+                  </div>
+                </div>
+                <button class="btn btn-primary">Продолжить</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Экран 2: подтверждение условий -->
+        <div class="phone-frame">
+          <div class="phone-inner">
+            <div class="screen-header">
+              <div class="screen-title">Проверьте детали</div>
+              <div class="screen-subtitle">
+                Перед подключением ещё раз посмотрите параметры защиты.
+              </div>
+            </div>
+
+            <div class="info-box">
+              <div class="info-title">Ваш выбор</div>
+              <div class="highlight">
+                Сумма защиты: <strong>300 000 ₽ на 12 месяцев</strong><br/>
+                Оплата: <strong>150 ₽ в месяц</strong>, подписка.
+              </div>
+            </div>
+
+            <div class="info-box">
+              <div class="info-title">Кратко об условиях</div>
+              <div class="helper-text">
+                • защищаем деньги на картах и счетах от действий мошенников;<br/>
+                • если за год выплачиваем всю сумму защиты, программа прекращается до следующего года;<br/>
+                • заявление и документы можно подать онлайн.
+              </div>
+              <div class="link-inline">Полные условия и правила страхования</div>
+            </div>
+
+            <div class="checkbox">
+              <input type="checkbox" />
+              <div>Я согласен с условиями программы и правилами страхования.</div>
+            </div>
+
+            <div class="checkbox">
+              <input type="checkbox" />
+              <div>Я согласен на обработку персональных данных и передачу их страховщику.</div>
+            </div>
+
+            <div class="bottom-bar">
+              <div class="bottom-main">
+                <div class="bottom-main-text">
+                  <div><strong>К оплате сейчас: 150 ₽</strong></div>
+                  <div class="bottom-caption">
+                    Далее — автоплатёж 150 ₽ каждый месяц.
+                  </div>
+                </div>
+                <button class="btn btn-primary">Оплатить и подключить</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Экран 3: успех + "Моя защита" -->
+        <div class="phone-frame">
+          <div class="phone-inner">
+            <div class="screen-header">
+              <div class="screen-title">Страхование подключено</div>
+              <div class="screen-subtitle">
+                Вы оформили защиту от мошенничества на сумму 300 000 ₽ на 12 месяцев.
+              </div>
+            </div>
+
+            <div class="info-box">
+              <div class="info-title">Статус защиты</div>
+              <div class="status-line">
+                <div class="tag-success">
+                  <span class="tag-success-dot"></span>
+                  Активна
+                </div>
+                <div class="helper-text">До 15.01.2027</div>
+              </div>
+              <div class="progress">
+                <div class="progress-inner"></div>
+              </div>
+              <div class="helper-text">
+                Остаток защиты: <strong>300 000 ₽ из 300 000 ₽</strong>.
+              </div>
+            </div>
+
+            <button class="btn btn-primary btn-full">Перейти к моей защите</button>
+            <button class="btn btn-secondary btn-full">Посмотреть полис и условия</button>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</body>
+</html>
