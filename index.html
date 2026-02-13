@@ -1,864 +1,446 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <title>Ростелеком — Страхование от мошенничества (UI прототипы)</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Подсчёт часов из ICS</title>
   <style>
-    :root {
-      --primary: #6a4ff7;
-      --primary-dark: #5238d6;
-      --accent: #ff8a00;
-      --bg: #f5f6fa;
-      --card-bg: #ffffff;
-      --text-main: #1f2430;
-      --text-secondary: #616777;
-      --border: #dde1ea;
-      --success: #2cb67d;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background: var(--bg);
-      color: var(--text-main);
-      -webkit-font-smoothing: antialiased;
-    }
-
-    h1, h2, h3, h4 {
-      margin: 0 0 8px;
-      font-weight: 600;
-    }
-
-    p {
-      margin: 0 0 8px;
-    }
-
-    a {
-      color: var(--primary);
-      text-decoration: none;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-
-    .page {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 24px 16px 40px;
-    }
-
-    .page-header {
-      margin-bottom: 24px;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: baseline;
-      gap: 12px;
-    }
-
-    .page-header h1 {
-      font-size: 24px;
-    }
-
-    .page-header span {
-      font-size: 14px;
-      color: var(--text-secondary);
-    }
-
-    .variants {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 24px;
-    }
-
-    @media (min-width: 960px) {
-      .variants {
-        grid-template-columns: 1fr 1fr;
-      }
-    }
-
-    .variant {
-      background: #ffffff;
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .variant-title {
-      font-size: 16px;
-      font-weight: 600;
-      color: var(--text-secondary);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    .phone-frame {
-      border-radius: 24px;
-      border: 1px solid var(--border);
-      background: #f9fafc;
-      padding: 16px 10px;
-      max-width: 420px;
-      margin: 0 auto;
-    }
-
-    .phone-inner {
-      background: var(--bg);
-      border-radius: 20px;
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .screen-header {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .screen-title {
-      font-size: 18px;
-      font-weight: 600;
-    }
-
-    .screen-subtitle {
-      font-size: 13px;
-      color: var(--text-secondary);
-    }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 11px;
-      border-radius: 999px;
-      padding: 4px 8px;
-      background: rgba(106,79,247,0.06);
-      color: var(--primary-dark);
-    }
-
-    .badge-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--primary);
-    }
-
-    .bullets {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      font-size: 12px;
-      color: var(--text-secondary);
-      padding: 8px;
-      border-radius: 10px;
-      background: #ffffff;
-      border: 1px solid #e5e9f2;
-    }
-
-    .bullets-item::before {
-      content: "• ";
-    }
-
-    .cards-list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .tariff-card {
-      background: var(--card-bg);
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      padding: 12px 12px 10px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .tariff-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      gap: 8px;
-    }
-
-    .tariff-name {
-      font-size: 14px;
-      font-weight: 600;
-    }
-
-    .tariff-link {
-      font-size: 11px;
-      color: var(--primary);
-    }
-
-    .tariff-main {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-    }
-
-    .tariff-sum {
-      font-size: 18px;
-      font-weight: 600;
-    }
-
-    .tariff-price {
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--primary-dark);
-    }
-
-    .tariff-caption {
-      font-size: 11px;
-      color: var(--text-secondary);
-    }
-
-    .btn {
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
-      padding: 9px 12px;
-      border-radius: 999px;
-      border: none;
-      cursor: pointer;
-      font-size: 13px;
-      font-weight: 500;
-    }
-
-    .btn-primary {
-      background: var(--primary);
-      color: #ffffff;
-    }
-
-    .btn-primary:hover {
-      background: var(--primary-dark);
-    }
-
-    .btn-secondary {
-      background: #ffffff;
-      color: var(--primary);
-      border: 1px solid var(--primary);
-    }
-
-    .btn-full {
-      width: 100%;
-    }
-
-    .link-inline {
-      font-size: 12px;
-      color: var(--primary);
-      cursor: pointer;
-    }
-
-    .link-inline:hover {
-      text-decoration: underline;
-    }
-
-    .divider {
-      height: 1px;
-      background: #e3e7f0;
-      margin: 4px 0 0;
-    }
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      font-size: 12px;
-    }
-
-    .form-label {
-      font-size: 12px;
-    }
-
-    .form-input, .form-select {
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      padding: 7px 9px;
-      font-size: 13px;
-      background: #ffffff;
-    }
-
-    .helper-text {
-      font-size: 11px;
-      color: var(--text-secondary);
-    }
-
-    .info-box {
-      background: #ffffff;
-      border-radius: 12px;
-      border: 1px solid #e3e7f0;
-      padding: 10px;
-      font-size: 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .info-title {
-      font-weight: 600;
-      font-size: 12px;
-    }
-
-    .checkbox {
-      display: flex;
-      align-items: flex-start;
-      gap: 6px;
-      font-size: 11px;
-      color: var(--text-secondary);
-    }
-
-    .checkbox input {
-      margin-top: 2px;
-    }
-
-    .bottom-bar {
-      margin-top: 4px;
-      padding-top: 8px;
-      border-top: 1px solid #e3e7f0;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .bottom-main {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .bottom-main-text {
-      font-size: 12px;
-    }
-
-    .bottom-main-text strong {
-      font-size: 14px;
-    }
-
-    .bottom-caption {
-      font-size: 10px;
-      color: var(--text-secondary);
-    }
-
-    .chip-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-
-    .chip {
-      padding: 5px 8px;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      background: #ffffff;
-      font-size: 11px;
-      cursor: pointer;
-    }
-
-    .chip.active {
-      border-color: var(--primary);
-      background: rgba(106,79,247,0.08);
-      color: var(--primary-dark);
-    }
-
-    .segment-control {
-      display: flex;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      overflow: hidden;
-      background: #ffffff;
-    }
-
-    .segment-item {
-      flex: 1;
-      text-align: center;
-      padding: 7px 4px;
-      font-size: 12px;
-      cursor: pointer;
-      border-right: 1px solid var(--border);
-    }
-
-    .segment-item:last-child {
-      border-right: none;
-    }
-
-    .segment-item.active {
-      background: rgba(106,79,247,0.08);
-      color: var(--primary-dark);
-      font-weight: 500;
-    }
-
-    .tag-success {
-      color: var(--success);
-      font-size: 11px;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .tag-success-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--success);
-    }
-
-    .status-line {
-      display: flex;
-      justify-content: space-between;
-      font-size: 12px;
-      align-items: center;
-    }
-
-    .progress {
-      margin-top: 4px;
-      height: 6px;
-      border-radius: 999px;
-      background: #e4e7f1;
-      overflow: hidden;
-    }
-
-    .progress-inner {
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, var(--primary), var(--accent));
-    }
-
-    .highlight {
-      font-size: 12px;
-      color: var(--text-secondary);
-    }
-
-    .highlight strong {
-      color: var(--text-main);
-    }
+    :root{
+      --bg:#0b1220; --card:#111a2e; --muted:#9fb0d0; --text:#e8efff;
+      --border:rgba(255,255,255,.12); --accent:#66a3ff; --danger:#ff5c7a; --ok:#39d98a;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background: radial-gradient(1200px 700px at 20% -20%, rgba(102,163,255,.25), transparent 60%),
+                  radial-gradient(900px 600px at 110% 10%, rgba(57,217,138,.18), transparent 60%),
+                  var(--bg);
+      color:var(--text);
+    }
+    .wrap{max-width:980px;margin:0 auto;padding:20px 14px 40px}
+    header{display:flex;gap:12px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;margin-bottom:14px}
+    h1{font-size:18px;margin:0;line-height:1.25}
+    .sub{margin-top:6px;color:var(--muted);font-size:13px;max-width:70ch}
+    .grid{display:grid;grid-template-columns:1.1fr .9fr;gap:12px}
+    @media (max-width:860px){.grid{grid-template-columns:1fr}}
+    .card{
+      background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      border:1px solid var(--border);
+      border-radius:14px;
+      padding:14px;
+      backdrop-filter:blur(6px);
+    }
+    .card h2{margin:0 0 10px;font-size:14px;color:rgba(232,239,255,.92)}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    @media (max-width:520px){.row{grid-template-columns:1fr}}
+    label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px}
+    input[type="text"], input[type="date"], textarea{
+      width:100%;
+      padding:10px 10px;
+      border-radius:10px;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(0,0,0,.18);
+      color:var(--text);
+      outline:none;
+    }
+    input[type="file"]{
+      width:100%;
+      padding:10px;
+      border-radius:10px;
+      border:1px dashed rgba(255,255,255,.22);
+      background:rgba(0,0,0,.12);
+      color:var(--muted);
+    }
+    textarea{min-height:120px;resize:vertical}
+    .hint{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.35}
+    .btns{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:12px}
+    button{
+      border:0;border-radius:10px;padding:10px 12px;
+      background:rgba(102,163,255,.18);
+      color:var(--text);
+      border:1px solid rgba(102,163,255,.35);
+      cursor:pointer;font-weight:600
+    }
+    button:hover{background:rgba(102,163,255,.25)}
+    button.secondary{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16)}
+    .status{font-size:12px;color:var(--muted)}
+    .pill{
+      display:inline-block;padding:6px 10px;border-radius:999px;
+      border:1px solid var(--border);background:rgba(0,0,0,.16);
+      color:var(--muted);font-size:12px
+    }
+    .out{
+      white-space:pre-wrap;
+      font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+      font-size:12px;line-height:1.4;
+      padding:12px;border-radius:12px;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(0,0,0,.2);
+      min-height:140px;
+    }
+    .err{color:var(--danger)}
+    .ok{color:var(--ok)}
+    .chk{display:flex;align-items:center;gap:10px;margin-top:10px;color:var(--muted);font-size:13px}
+    .chk input{width:16px;height:16px}
   </style>
+
+  <script src="https://cdn.jsdelivr.net/npm/ical.js@1.5.0/build/ical.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/rrule@2.8.1/dist/es5/rrule.min.js"></script>
 </head>
 <body>
-  <div class="page">
-    <div class="page-header">
-      <h1>Страхование от мошенничества — прототипы UI</h1>
-      <span>Ростелеком · два сценария: фиксированные тарифы и калькулятор</span>
-    </div>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1>Суммарная длительность событий из ICS</h1>
+        <div class="sub">Учитывает RRULE/EXDATE/RDATE и частично RECURRENCE-ID overrides.</div>
+      </div>
+    </header>
 
-    <div class="variants">
-      <!-- Вариант 1: Моно опция без калькулятора -->
-      <section class="variant">
-        <div class="variant-title">Вариант 1 · Моно‑опция без калькулятора (3 тарифа)</div>
+    <div class="grid">
+      <section class="card">
+        <h2>Источник ICS</h2>
 
-        <!-- Экран 1: выбор тарифа -->
-        <div class="phone-frame">
-          <div class="phone-inner">
-            <div class="screen-header">
-              <div class="screen-title">Защита от мошенников</div>
-              <div class="screen-subtitle">
-                Вернём деньги, если мошенники украдут их с ваших карт или счетов.
-              </div>
-              <div class="badge">
-                <span class="badge-dot"></span>
-                Подписка от 99 ₽ в месяц
-              </div>
-            </div>
-
-            <div class="bullets">
-              <div class="bullets-item">Защита карт и счетов любых банков.</div>
-              <div class="bullets-item">Переводы по просьбе «сотрудников банка» и поддельные сайты.</div>
-              <div class="bullets-item">Решение по заявке от 48 часов.</div>
-            </div>
-
-            <div class="cards-list">
-              <div class="tariff-card">
-                <div class="tariff-header">
-                  <div class="tariff-name">Базовая защита</div>
-                  <div class="tariff-link">Подробнее</div>
-                </div>
-                <div class="tariff-main">
-                  <div>
-                    <div class="tariff-sum">100 000 ₽</div>
-                    <div class="tariff-caption">Страховая сумма на год</div>
-                  </div>
-                  <div>
-                    <div class="tariff-price">99 ₽/мес</div>
-                    <div class="tariff-caption">Для одного человека</div>
-                  </div>
-                </div>
-                <div class="tariff-caption">
-                  Каждая выплата уменьшает остаток лимита.
-                </div>
-                <button class="btn btn-primary btn-full">Выбрать тариф</button>
-              </div>
-
-              <div class="tariff-card" style="border-width:2px;border-color:var(--primary);">
-                <div class="tariff-header">
-                  <div class="tariff-name">Оптимальная защита</div>
-                  <div class="tariff-link">Подробнее</div>
-                </div>
-                <div class="tariff-main">
-                  <div>
-                    <div class="tariff-sum">300 000 ₽</div>
-                    <div class="tariff-caption">Страховая сумма на год</div>
-                  </div>
-                  <div>
-                    <div class="tariff-price">329 ₽/мес</div>
-                    <div class="tariff-caption">Рекомендуем</div>
-                  </div>
-                </div>
-                <div class="tariff-caption">
-                  Подходит, если часто платите онлайн и по картам.
-                </div>
-                <button class="btn btn-primary btn-full">Выбрать тариф</button>
-              </div>
-
-              <div class="tariff-card">
-                <div class="tariff-header">
-                  <div class="tariff-name">Максимальная защита</div>
-                  <div class="tariff-link">Подробнее</div>
-                </div>
-                <div class="tariff-main">
-                  <div>
-                    <div class="tariff-sum">600 000 ₽</div>
-                    <div class="tariff-caption">Страховая сумма на год</div>
-                  </div>
-                  <div>
-                    <div class="tariff-price">529 ₽/мес</div>
-                    <div class="tariff-caption">Повышенный лимит</div>
-                  </div>
-                </div>
-                <div class="tariff-caption">
-                  Для крупных остатков и высоких лимитов по картам.
-                </div>
-                <button class="btn btn-primary btn-full">Выбрать тариф</button>
-              </div>
-            </div>
-
-            <div class="divider"></div>
-            <div class="highlight">
-              <strong>Что покрывает защита?</strong>
-              <span class="link-inline">Посмотреть список случаев</span>
-            </div>
+        <div class="row">
+          <div>
+            <label>Загрузите .ics файл</label>
+            <input id="file" type="file" accept=".ics,text/calendar" />
+          </div>
+          <div>
+            <label>…или вставьте содержимое ICS</label>
+            <textarea id="icsText" placeholder="BEGIN:VCALENDAR ..."></textarea>
           </div>
         </div>
 
-        <!-- Экран 2: данные застрахованного -->
-        <div class="phone-frame">
-          <div class="phone-inner">
-            <div class="screen-header">
-              <div class="screen-title">Данные для оформления</div>
-              <div class="screen-subtitle">
-                Эти данные нужны, чтобы оформить полис и отправить его вам.
-              </div>
-            </div>
+        <div class="hint">Если загрузили файл — текст заполнится автоматически.</div>
+      </section>
 
-            <div class="info-box">
-              <div class="info-title">Выбранный тариф</div>
-              <div class="highlight">
-                Оптимальная защита — <strong>300 000 ₽</strong>, <strong>329 ₽/мес</strong>
-              </div>
-              <div class="helper-text">
-                Страховая сумма на год. Каждая выплата уменьшает остаток лимита.
-              </div>
-            </div>
+      <section class="card">
+        <h2>Параметры расчёта</h2>
 
-            <div class="form-group">
-              <label class="form-label">ФИО</label>
-              <input class="form-input" placeholder="Иванов Иван Иванович" />
-            </div>
-
-            <div class="form-group">
-              <label class="form-label">Дата рождения</label>
-              <input class="form-input" placeholder="ДД.ММ.ГГГГ" />
-            </div>
-
-            <div class="info-box">
-              <div class="info-title">Что покрывает защита</div>
-              <div class="helper-text">
-                • звонки «из банка» с просьбой перевести деньги<br/>
-                • поддельные сайты и ссылки из SMS<br/>
-                • несанкционированные переводы из онлайн‑банка
-              </div>
-              <div class="link-inline">Полный список случаев</div>
-            </div>
-
-            <div class="checkbox">
-              <input type="checkbox" />
-              <div>Я согласен с условиями программы и правилами страхования.</div>
-            </div>
-
-            <button class="btn btn-primary btn-full">Перейти к оплате</button>
+        <div class="row">
+          <div>
+            <label>С (включительно)</label>
+            <input id="start" type="date" />
+          </div>
+          <div>
+            <label>По (включительно)</label>
+            <input id="end" type="date" />
           </div>
         </div>
 
-        <!-- Экран 3: оплата -->
-        <div class="phone-frame">
-          <div class="phone-inner">
-            <div class="screen-header">
-              <div class="screen-title">Оплата и подписка</div>
-              <div class="screen-subtitle">
-                Списываем оплату автоматически, пока защита активна.
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label class="form-label">Способ оплаты</label>
-              <div class="segment-control">
-                <div class="segment-item active">С лицевого счёта</div>
-                <div class="segment-item">С банковской карты</div>
-              </div>
-              <div class="helper-text">
-                Можно изменить или отключить в любой момент в разделе «Мои услуги».
-              </div>
-            </div>
-
-            <div class="info-box">
-              <div class="info-title">Подписка</div>
-              <div class="highlight">
-                Оплата: <strong>329 ₽ в месяц</strong>.
-              </div>
-              <div class="helper-text">
-                Подписка продлевается автоматически каждый месяц. Отменить можно в любой момент.
-              </div>
-            </div>
-
-            <div class="checkbox">
-              <input type="checkbox" />
-              <div>Я согласен на обработку персональных данных и их передачу страховщику.</div>
-            </div>
-
-            <div class="bottom-bar">
-              <div class="bottom-main">
-                <div class="bottom-main-text">
-                  <div><strong>К оплате сейчас: 329 ₽</strong></div>
-                  <div class="bottom-caption">
-                    Далее — автоплатёж раз в месяц.
-                  </div>
-                </div>
-                <button class="btn btn-primary">Подключить</button>
-              </div>
-            </div>
+        <div class="row" style="margin-top:10px;">
+          <div>
+            <label>Ставка (₽/час)</label>
+            <input id="rate" type="text" inputmode="decimal" placeholder="0" />
+          </div>
+          <div>
+            <label>Часовой пояс</label>
+            <input id="tz" type="text" disabled />
           </div>
         </div>
 
-        <!-- Экран 4: успех -->
-        <div class="phone-frame">
-          <div class="phone-inner">
-            <div class="screen-header">
-              <div class="screen-title">Защита подключена</div>
-              <div class="screen-subtitle">
-                Ваши деньги на картах и счетах теперь защищены до 300 000 ₽ на 12 месяцев.
-              </div>
-            </div>
+        <div class="chk">
+          <input id="allDay" type="checkbox" />
+          <label for="allDay" style="margin:0;color:inherit;">
+            Учитывать события «весь день» как 24 часа/сутки пересечения
+          </label>
+        </div>
 
-            <div class="info-box">
-              <div class="info-title">Полис оформлен</div>
-              <div class="helper-text">
-                Полис отправили на вашу почту и в раздел «Мои полисы» в приложении.
-              </div>
-            </div>
-
-            <button class="btn btn-primary btn-full">Перейти к моей защите</button>
-          </div>
+        <div class="btns">
+          <button id="calc">Посчитать</button>
+          <button id="clear" class="secondary">Очистить</button>
+          <span id="status" class="status"></span>
         </div>
       </section>
 
-      <!-- Вариант 2: Моно опция с калькулятором -->
-      <section class="variant">
-        <div class="variant-title">Вариант 2 · Моно‑опция с калькулятором</div>
-
-        <!-- Экран 0: простая карточка продукта (входная точка) -->
-        <div class="phone-frame">
-          <div class="phone-inner">
-            <div class="screen-header">
-              <div class="screen-title">Страхование от мошенничества</div>
-              <div class="screen-subtitle">
-                Защитите деньги на картах и счетах любых банков.
-              </div>
-            </div>
-
-            <div class="info-box">
-              <div class="info-title">Моно‑опция</div>
-              <div class="highlight">
-                От <strong>150 ₽ в месяц</strong><br/>
-                Страховая сумма — до <strong>1 000 000 ₽</strong> на год.
-              </div>
-            </div>
-
-            <div class="bullets">
-              <div class="bullets-item">Вернём деньги, если вы перевели их мошенникам по их просьбе.</div>
-              <div class="bullets-item">Защита при звонках «из банка», фишинговых ссылках и поддельных сайтах.</div>
-              <div class="bullets-item">Оформление и обращение за выплатой — онлайн.</div>
-            </div>
-
-            <button class="btn btn-primary btn-full">Рассчитать защиту</button>
-          </div>
-        </div>
-
-        <!-- Экран 1: калькулятор -->
-        <div class="phone-frame">
-          <div class="phone-inner">
-            <div class="screen-header">
-              <div class="screen-title">Настройте защиту</div>
-              <div class="screen-subtitle">
-                Выберите, на какую сумму и как хотите платить.
-              </div>
-              <div class="badge">
-                <span class="badge-dot"></span>
-                От 150 ₽ в месяц
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label class="form-label">ФИО застрахованного</label>
-              <input class="form-input" placeholder="Иванов Иван Иванович" />
-            </div>
-
-            <div class="form-group">
-              <label class="form-label">Дата рождения</label>
-              <input class="form-input" placeholder="ДД.ММ.ГГГГ" />
-            </div>
-
-            <div class="form-group">
-              <label class="form-label">Сумма защиты на год</label>
-              <div class="chip-row">
-                <div class="chip active">100 000 ₽</div>
-                <div class="chip">300 000 ₽</div>
-                <div class="chip">500 000 ₽</div>
-                <div class="chip">1 000 000 ₽</div>
-              </div>
-              <div class="helper-text">
-                Это максимальная сумма, которую мы сможем вернуть за 12 месяцев. Каждая выплата уменьшает остаток лимита.
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label class="form-label">Как вам удобнее платить?</label>
-              <div class="segment-control">
-                <div class="segment-item active">Ежемесячно</div>
-                <div class="segment-item">Раз в 3 месяца</div>
-                <div class="segment-item">Раз в год</div>
-              </div>
-            </div>
-
-            <div class="info-box">
-              <div class="info-title">Итог по вашему выбору</div>
-              <div class="highlight">
-                Сумма защиты: <strong>300 000 ₽ на год</strong><br/>
-                Оплата: <strong>от 150 ₽ в месяц</strong> при ежемесячном платеже.
-              </div>
-              <div class="helper-text">
-                Точная стоимость зависит от выбранной суммы защиты и периода оплаты.
-              </div>
-            </div>
-
-            <div class="bottom-bar">
-              <div class="bottom-main">
-                <div class="bottom-main-text">
-                  <div><strong>К оплате сейчас: 150 ₽</strong></div>
-                  <div class="bottom-caption">
-                    Подписка. Автосписание по выбранному графику.
-                  </div>
-                </div>
-                <button class="btn btn-primary">Продолжить</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Экран 2: подтверждение условий -->
-        <div class="phone-frame">
-          <div class="phone-inner">
-            <div class="screen-header">
-              <div class="screen-title">Проверьте детали</div>
-              <div class="screen-subtitle">
-                Перед подключением ещё раз посмотрите параметры защиты.
-              </div>
-            </div>
-
-            <div class="info-box">
-              <div class="info-title">Ваш выбор</div>
-              <div class="highlight">
-                Сумма защиты: <strong>300 000 ₽ на 12 месяцев</strong><br/>
-                Оплата: <strong>150 ₽ в месяц</strong>, подписка.
-              </div>
-            </div>
-
-            <div class="info-box">
-              <div class="info-title">Кратко об условиях</div>
-              <div class="helper-text">
-                • защищаем деньги на картах и счетах от действий мошенников;<br/>
-                • если за год выплачиваем всю сумму защиты, программа прекращается до следующего года;<br/>
-                • заявление и документы можно подать онлайн.
-              </div>
-              <div class="link-inline">Полные условия и правила страхования</div>
-            </div>
-
-            <div class="checkbox">
-              <input type="checkbox" />
-              <div>Я согласен с условиями программы и правилами страхования.</div>
-            </div>
-
-            <div class="checkbox">
-              <input type="checkbox" />
-              <div>Я согласен на обработку персональных данных и передачу их страховщику.</div>
-            </div>
-
-            <div class="bottom-bar">
-              <div class="bottom-main">
-                <div class="bottom-main-text">
-                  <div><strong>К оплате сейчас: 150 ₽</strong></div>
-                  <div class="bottom-caption">
-                    Далее — автоплатёж 150 ₽ каждый месяц.
-                  </div>
-                </div>
-                <button class="btn btn-primary">Оплатить и подключить</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Экран 3: успех + "Моя защита" -->
-        <div class="phone-frame">
-          <div class="phone-inner">
-            <div class="screen-header">
-              <div class="screen-title">Страхование подключено</div>
-              <div class="screen-subtitle">
-                Вы оформили защиту от мошенничества на сумму 300 000 ₽ на 12 месяцев.
-              </div>
-            </div>
-
-            <div class="info-box">
-              <div class="info-title">Статус защиты</div>
-              <div class="status-line">
-                <div class="tag-success">
-                  <span class="tag-success-dot"></span>
-                  Активна
-                </div>
-                <div class="helper-text">До 15.01.2027</div>
-              </div>
-              <div class="progress">
-                <div class="progress-inner"></div>
-              </div>
-              <div class="helper-text">
-                Остаток защиты: <strong>300 000 ₽ из 300 000 ₽</strong>.
-              </div>
-            </div>
-
-            <button class="btn btn-primary btn-full">Перейти к моей защите</button>
-            <button class="btn btn-secondary btn-full">Посмотреть полис и условия</button>
-          </div>
-        </div>
+      <section class="card" style="grid-column: 1 / -1;">
+        <h2>Результат</h2>
+        <div id="out" class="out">Загрузите .ics или вставьте текст, выберите диапазон дат и нажмите «Посчитать».</div>
       </section>
     </div>
   </div>
+
+  <script>
+    function pad2(n){ return String(n).padStart(2,'0'); }
+    function isoDate(d){ return `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`; }
+
+    function parseRate(str){
+      const s = (str ?? "").trim().replace(",", ".");
+      if (!s) return 0;
+      const v = Number(s);
+      if (!Number.isFinite(v)) throw new Error("Часовая ставка должна быть числом");
+      if (v < 0) throw new Error("Часовая ставка не может быть отрицательной");
+      return v;
+    }
+
+    function toLocalDateStart(dateStr){
+      const [y,m,d] = dateStr.split("-").map(Number);
+      return new Date(y, m-1, d, 0,0,0,0);
+    }
+
+    function isAllDayFromICALTime(t){ return !!t && t.isDate === true; }
+
+    function clampInterval(aStart, aEnd, bStart, bEnd){
+      const s = aStart > bStart ? aStart : bStart;
+      const e = aEnd < bEnd ? aEnd : bEnd;
+      if (e <= s) return null;
+      return [s,e];
+    }
+
+    function hoursBetween(a,b){ return (b.getTime() - a.getTime()) / 3600000; }
+
+    function getPropFirst(vevent, name){
+      const p = vevent.getFirstProperty(name);
+      return p ? p : null;
+    }
+    function getPropsAll(vevent, name){ return vevent.getAllProperties(name) || []; }
+
+    function eventUID(vevent){
+      const p = getPropFirst(vevent, "uid");
+      return p ? String(p.getFirstValue() ?? "") : "";
+    }
+    function statusCancelled(vevent){
+      const p = getPropFirst(vevent, "status");
+      if (!p) return false;
+      return String(p.getFirstValue() ?? "").trim().toUpperCase() === "CANCELLED";
+    }
+
+    function getBaseStartEndAllDay(vevent){
+      const dtstartProp = getPropFirst(vevent, "dtstart");
+      if (!dtstartProp) return null;
+
+      const dtstart = dtstartProp.getFirstValue(); // ICAL.Time
+      const allDay = isAllDayFromICALTime(dtstart);
+      const start = dtstart.toJSDate();
+
+      let end = null;
+      const dtendProp = getPropFirst(vevent, "dtend");
+      const durProp = getPropFirst(vevent, "duration");
+
+      if (dtendProp){
+        end = dtendProp.getFirstValue().toJSDate();
+      } else if (durProp){
+        const dur = durProp.getFirstValue(); // ICAL.Duration
+        end = new Date(start.getTime() + dur.toSeconds() * 1000);
+      } else {
+        end = new Date(start.getTime() + (allDay ? 86400000 : 0));
+      }
+
+      if (!(end > start)) return null;
+      return { start, end, allDay, durationMs: end.getTime() - start.getTime() };
+    }
+
+    function parseRRuleFromVevent(vevent, dtstartJs){
+      const rruleProp = getPropFirst(vevent, "rrule");
+      if (!rruleProp) return null;
+      const recur = rruleProp.getFirstValue();
+      const recurStr = recur ? recur.toString() : "";
+      if (!recurStr) return null;
+      return window.rrule.rrulestr("RRULE:" + recurStr, { dtstart: dtstartJs });
+    }
+
+    function collectDateListFromProps(vevent, propName){
+      const props = getPropsAll(vevent, propName);
+      const out = [];
+      for (const p of props){
+        const vals = p.getValues ? p.getValues() : [];
+        for (const v of vals){
+          if (v && typeof v.toJSDate === "function") out.push(v.toJSDate());
+        }
+      }
+      return out;
+    }
+
+    function buildOverridesIndex(vevents){
+      const map = new Map();
+      for (const v of vevents){
+        const ridProp = getPropFirst(v, "recurrence-id");
+        if (!ridProp) continue;
+        const uid = eventUID(v);
+        if (!uid) continue;
+        const rid = ridProp.getFirstValue();
+        if (!rid || typeof rid.toJSDate !== "function") continue;
+        map.set(uid + "|" + rid.toJSDate().getTime(), v);
+      }
+      return map;
+    }
+
+    function* iterInstancesInRange(vevent, rangeStart, rangeEnd){
+      const base = getBaseStartEndAllDay(vevent);
+      if (!base) return;
+
+      const { start: start0, end: end0, allDay, durationMs } = base;
+
+      const rrule = parseRRuleFromVevent(vevent, start0);
+      const rdates = collectDateListFromProps(vevent, "rdate");
+      const exdates = collectDateListFromProps(vevent, "exdate");
+
+      const hasRepeats = !!rrule || rdates.length > 0;
+      if (!hasRepeats){
+        yield { start: start0, end: end0, allDay };
+        return;
+      }
+
+      const searchStart = new Date(rangeStart.getTime() - durationMs);
+      const searchEnd = new Date(rangeEnd.getTime());
+
+      const starts = new Set();
+
+      if (rrule){
+        const occ = rrule.between(searchStart, searchEnd, true);
+        for (const d of occ) starts.add(d.getTime());
+      }
+      for (const d of rdates) starts.add(d.getTime());
+      for (const d of exdates) starts.delete(d.getTime());
+
+      const sorted = Array.from(starts).sort((a,b)=>a-b);
+      for (const ms of sorted){
+        const s = new Date(ms);
+        const e = new Date(ms + durationMs);
+        yield { start: s, end: e, allDay };
+      }
+    }
+
+    function computeTotalHours(icsText, startDateStr, endDateStr, countAllDayAs24h){
+      const jcal = ICAL.parse(icsText);
+      const comp = new ICAL.Component(jcal);
+
+      const vevents = comp.getAllSubcomponents("vevent");
+      const overrides = buildOverridesIndex(vevents);
+
+      const rangeStart = toLocalDateStart(startDateStr);
+      const rangeEnd = new Date(toLocalDateStart(endDateStr).getTime() + 86400000);
+
+      let total = 0;
+      let eventsCounted = 0;
+      let instancesCounted = 0;
+      let skippedAllDay = 0;
+      let skippedInvalid = 0;
+
+      for (const v of vevents){
+        if (getPropFirst(v, "recurrence-id")) continue;
+
+        try{
+          const uid = eventUID(v);
+          let hadAny = false;
+
+          for (const inst of iterInstancesInRange(v, rangeStart, rangeEnd)){
+            hadAny = true;
+            let { start, end, allDay } = inst;
+
+            if (uid){
+              const ov = overrides.get(uid + "|" + start.getTime());
+              if (ov){
+                if (statusCancelled(ov)) continue;
+                const ovBase = getBaseStartEndAllDay(ov);
+                if (!ovBase){
+                  skippedInvalid += 1;
+                  continue;
+                }
+                start = ovBase.start;
+                end = ovBase.end;
+                allDay = ovBase.allDay;
+              }
+            }
+
+            if (allDay && !countAllDayAs24h){
+              skippedAllDay += 1;
+              continue;
+            }
+
+            const inter = clampInterval(start, end, rangeStart, rangeEnd);
+            if (!inter) continue;
+
+            const h = hoursBetween(inter[0], inter[1]);
+            if (h <= 0) continue;
+
+            total += h;
+            instancesCounted += 1;
+          }
+
+          if (hadAny) eventsCounted += 1;
+        }catch(e){
+          skippedInvalid += 1;
+        }
+      }
+
+      return { totalHours: total, eventsCounted, instancesCounted, skippedAllDay, skippedInvalid };
+    }
+
+    const $ = (id) => document.getElementById(id);
+    const out = $("out");
+    const status = $("status");
+
+    function setOut(text, cls){
+      out.classList.remove("err","ok");
+      if (cls) out.classList.add(cls);
+      out.textContent = text;
+    }
+    function setStatus(t){ status.textContent = t || ""; }
+
+    (function init(){
+      const now = new Date();
+      const first = new Date(now.getFullYear(), now.getMonth(), 1);
+      $("start").value = isoDate(first);
+      $("end").value = isoDate(now);
+      $("rate").value = "0";
+      $("tz").value = Intl.DateTimeFormat().resolvedOptions().timeZone || "local";
+    })();
+
+    $("clear").addEventListener("click", () => {
+      $("file").value = "";
+      $("icsText").value = "";
+      setStatus("");
+      setOut("Загрузите .ics или вставьте текст, выберите диапазон дат и нажмите «Посчитать».");
+    });
+
+    $("file").addEventListener("change", async (e) => {
+      const f = e.target.files && e.target.files[0];
+      if (!f) return;
+      $("icsText").value = await f.text();
+      setStatus(`Файл загружен: ${f.name}`);
+    });
+
+    $("calc").addEventListener("click", async () => {
+      try{
+        const icsText = ($("icsText").value || "").trim();
+        if (!icsText) throw new Error("Нужно загрузить .ics или вставить содержимое ICS.");
+
+        const start = $("start").value;
+        const end = $("end").value;
+        if (!start || !end) throw new Error("Заполните даты «С» и «По».");
+        if (end < start) throw new Error("Дата «По» должна быть >= даты «С».");
+
+        const rate = parseRate($("rate").value);
+        const countAllDay = $("allDay").checked;
+
+        setStatus("Обработка…");
+        setOut("Считаю…");
+        await new Promise(r => setTimeout(r, 10));
+
+        const res = computeTotalHours(icsText, start, end, countAllDay);
+        const totalRounded = Math.round(res.totalHours * 100) / 100;
+        const costRounded = Math.round((res.totalHours * rate) * 100) / 100;
+
+        const text =
+          `Диапазон: ${start} — ${end} (включительно)\n` +
+          `Суммарно: ${totalRounded} часов\n` +
+          `Ставка: ${rate.toFixed(2)} ₽/час\n` +
+          `Итого: ${costRounded.toFixed(2)} ₽\n\n` +
+          `Техническая информация:\n` +
+          `- VEVENT обработано (мастер-событий): ${res.eventsCounted}\n` +
+          `- Экземпляров (включая повторы) учтено: ${res.instancesCounted}\n` +
+          `- All-day пропущено: ${res.skippedAllDay}\n` +
+          `- Некорректных/пропущенных событий: ${res.skippedInvalid}\n`;
+
+        setOut(text, "ok");
+        setStatus("Готово");
+      }catch(e){
+        setOut(String(e && e.message ? e.message : e), "err");
+        setStatus("Ошибка");
+      }
+    });
+  </script>
 </body>
 </html>
